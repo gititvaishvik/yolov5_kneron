@@ -1348,7 +1348,11 @@ def run(
         y = model(im)  # dry runs
     if half and not coreml:
         im, model = im.half(), model.half()  # to FP16
-    shape = tuple((y[0] if isinstance(y, tuple) else y).shape)  # model output shape
+    print(y)
+    print("ssssss")
+    print(y[0].shape)
+    # shape = tuple((y[0] if isinstance(y, tuple) else y).shape)  # model output shape
+    shape=y[0].shape
     metadata = {"stride": int(max(model.stride)), "names": model.names}  # model metadata
     LOGGER.info(f"\n{colorstr('PyTorch:')} starting from {file} with output shape {shape} ({file_size(file):.1f} MB)")
 
@@ -1441,8 +1445,8 @@ def parse_opt(known=False):
         ```
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", type=str, default=ROOT / "data/coco128.yaml", help="dataset.yaml path")
-    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "yolov5s.pt", help="model.pt path(s)")
+    parser.add_argument("--data", type=str, default=ROOT / "data/winder_face.yaml", help="dataset.yaml path")
+    parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "runs/train/exp11/weights/best.pt", help="model.pt path(s)")
     parser.add_argument("--imgsz", "--img", "--img-size", nargs="+", type=int, default=[640, 640], help="image (h, w)")
     parser.add_argument("--batch-size", type=int, default=1, help="batch size")
     parser.add_argument("--device", default="cpu", help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
@@ -1454,7 +1458,7 @@ def parse_opt(known=False):
     parser.add_argument("--per-tensor", action="store_true", help="TF per-tensor quantization")
     parser.add_argument("--dynamic", action="store_true", help="ONNX/TF/TensorRT: dynamic axes")
     parser.add_argument("--simplify", action="store_true", help="ONNX: simplify model")
-    parser.add_argument("--opset", type=int, default=17, help="ONNX: opset version")
+    parser.add_argument("--opset", type=int, default=11, help="ONNX: opset version")
     parser.add_argument("--verbose", action="store_true", help="TensorRT: verbose log")
     parser.add_argument("--workspace", type=int, default=4, help="TensorRT: workspace size (GB)")
     parser.add_argument("--nms", action="store_true", help="TF: add NMS to model")
@@ -1466,7 +1470,7 @@ def parse_opt(known=False):
     parser.add_argument(
         "--include",
         nargs="+",
-        default=["torchscript"],
+        default=["onnx"],
         help="torchscript, onnx, openvino, engine, coreml, saved_model, pb, tflite, edgetpu, tfjs, paddle",
     )
     opt = parser.parse_known_args()[0] if known else parser.parse_args()

@@ -1,0 +1,10 @@
+200 epochs completed in 14.149 hours.
+Optimizer stripped from runs/train/exp11/weights/last.pt, 23.6MB
+Optimizer stripped from runs/train/exp11/weights/best.pt, 23.6MB
+
+Validating runs/train/exp11/weights/best.pt...
+Fusing layers...
+YOLOv5s summary: 267 layers, 11544406 parameters, 0 gradients, 27.3 GFLOPs
+                 Class     Images  Instances          P          R      mAP50   mAP50-95: 100%|██████████| 13/13 [03:42<00:00, 17.12s/it]
+                   all       3221      39454      0.832      0.591      0.663      0.327
+Results saved to runs/train/exp11
